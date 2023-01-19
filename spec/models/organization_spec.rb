@@ -21,4 +21,9 @@ RSpec.describe Organization, type: :model do
   it "responds to has_many attributes" do
     expect(org).to respond_to(:users, :tickets)
   end
+
+  it "responds to has_and_belongs_to_many attributes" do
+    expect(org).to respond_to(:resource_categories)
+  end
+
 end

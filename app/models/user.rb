@@ -1,3 +1,4 @@
+#Sets default role of user in organization,
 class User < ApplicationRecord
 
   enum role: [:admin, :organization]

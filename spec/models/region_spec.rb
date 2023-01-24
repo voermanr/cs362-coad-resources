@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Region, type: :model do
-
-  it "exists" do
-    Region.new
+  let (:region) {Region.new}
+  
+  it "responds to attribute name" do
+    expect(region).to respond_to(:name)
   end
 
-  it "has a name" do
-    region = Region.new
-    expect(region).to respond_to(:name)
+  it "responds to has_many attribute tickets" do
+    expect(region).to respond_to(:tickets)
   end
 
   it "has a string representation that is its name" do

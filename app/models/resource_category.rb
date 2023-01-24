@@ -1,3 +1,4 @@
+#ResourceCategory sets the present state of the category to active or inactive
 class ResourceCategory < ApplicationRecord
 
   has_and_belongs_to_many :organizations

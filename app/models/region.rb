@@ -1,3 +1,6 @@
+#Region is a subclass of ApplicationRecord
+#Approves whether a given region name is valid
+
 class Region < ApplicationRecord
 
   has_many :tickets

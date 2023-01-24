@@ -1,3 +1,5 @@
+#Ticket returns information report of request for help
+#determines whether the ticket is under jurisdiction of an organization or still open for help
 class Ticket < ApplicationRecord
 
   belongs_to :region

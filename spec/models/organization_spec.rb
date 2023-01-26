@@ -26,4 +26,8 @@ RSpec.describe Organization, type: :model do
     expect(org).to respond_to(:resource_categories)
   end
 
+  # describe 'validations' do
+  #   it {should validates_presence_of(:email)}
+  #   end
+  # end
 end

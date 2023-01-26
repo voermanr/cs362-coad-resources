@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Ticket, type: :model do
 
-  let (:ticket) {Ticket.new}
+  let(:ticket) {Ticket.new}
 
   it "responds to belongs_to attributes" do
     expect(ticket).to respond_to(:region, :resource_category, :organization)

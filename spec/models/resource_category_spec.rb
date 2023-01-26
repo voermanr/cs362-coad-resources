@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ResourceCategory, type: :model do
 
-  let (:resource_category) {ResourceCategory.new}
+  let(:resource_category) {ResourceCategory.new}
 
   it "responds to attribute name" do
     expect(resource_category).to respond_to(:name)

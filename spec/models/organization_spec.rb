@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Organization, type: :model do
-  let (:org) {Organization.new}
+
+  let(:org) {Organization.new}
   it "responds to agreement attributes" do
     expect(org).to respond_to(:agreement_one, :agreement_two, :agreement_three, :agreement_four, :agreement_five, :agreement_six, :agreement_seven, :agreement_eight)
   end
@@ -31,4 +32,16 @@ RSpec.describe Organization, type: :model do
     it {should validate_presence_of(:name)}
     it {should validate_length_of(:email)}
   end
+
+
+  # Association Tests
+
+  describe 'associations' do
+    it { should have_many(:users) }
+    it { should have_many(:tickets) }
+    it { should have_and_belong_to_many(:resource_categories)}
+  end
+
+
+
 end

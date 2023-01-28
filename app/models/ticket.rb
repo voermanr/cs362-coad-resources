@@ -19,6 +19,11 @@ class Ticket < ApplicationRecord
   scope :region, -> (region_id) { where(region_id: region_id) }
   scope :resource_category, -> (resource_category_id) { where(resource_category_id: resource_category_id) }
 
+  FactoryBot.define do
+    factory(:ticket) do
+
+    end
+  end
 
   def open?
     !closed

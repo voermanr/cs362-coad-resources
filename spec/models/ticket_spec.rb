@@ -12,4 +12,11 @@ RSpec.describe Ticket, type: :model do
     expect(ticket).to respond_to(:name, :phone, :region_id, :resource_category_id, :description)
   end
 
+
+  describe 'associations' do
+    it { should belong_to(:region) }
+    it { should belong_to(:resource_category) }
+    it { should belong_to(:organization).without_validating_presence }
+  end
+
 end

@@ -34,8 +34,6 @@ RSpec.describe Organization, type: :model do
   end
 
 
-  # Association Tests
-
   describe 'associations' do
     it { should have_many(:users) }
     it { should have_many(:tickets) }
@@ -43,5 +41,34 @@ RSpec.describe Organization, type: :model do
   end
 
 
+  describe 'approve testing' do
+    let(:org) { build(:organization) }
+
+    it 'calls approve then expects the status to be approved' do
+      org.approve
+      expect(org.status).to eq("approved")
+    end
+  end
+
+  describe 'reject testing' do
+    let(:org) { build(:organization) }
+
+    it 'calls approve then expects the status to be approved' do
+      org.reject
+      expect(org.status).to eq("rejected")
+    end
+  end
+
+  describe 'set_default_status testing' do
+    let(:org) { build(:organization) }
+
+    it { expect(org.status).to eq("submitted") }
+  end
+
+  describe 'to_s testing' do
+    let(:org) { build(:organization, name: "Chuck E Cheeses") }
+
+    it { expect(org.to_s).to eq("Chuck E Cheeses") }
+  end
 
 end

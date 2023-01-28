@@ -21,4 +21,9 @@ RSpec.describe Region, type: :model do
     it { should have_many(:tickets) }
   end
 
+  describe 'to_s testing' do
+    let(:reg) { build(:region, name: 'The Twilight Zone') }
+
+    it { expect(reg.to_s).to eq('The Twilight Zone') }
+  end
 end

@@ -29,7 +29,7 @@ RSpec.describe Ticket, type: :model do
     let(:org) { build(:organization) }
     let(:tic) { build(:ticket, organization: org) }
 
-    it { expect(tic.organization).to be_present }
+    it { expect(tic.captured?).to be true }
   end
 
   describe '.to_s' do

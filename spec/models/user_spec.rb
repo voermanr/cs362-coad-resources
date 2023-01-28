@@ -17,4 +17,19 @@ RSpec.describe User, type: :model do
     it { should belong_to(:organization).optional }
   end
 
+
+  describe 'set_default_role testing' do
+    let(:user) { build(:user) }
+
+    it { expect(user.role).to eq("organization") }
+  end
+
+
+  describe "to_s method testing" do
+    let(:user) { build(:user, email: 'example@sixflags.com') }
+
+    it 'returns email' do
+      expect(user.to_s).to eq 'example@sixflags.com'
+    end
+  end
 end

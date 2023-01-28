@@ -16,4 +16,10 @@ RSpec.describe ResourceCategory, type: :model do
     expect(resource_category).to respond_to(:organizations)
   end
 
+
+  describe 'associations' do
+     it { should have_and_belong_to_many(:organizations) }
+     it { should have_many(:tickets) }
+  end
+
 end

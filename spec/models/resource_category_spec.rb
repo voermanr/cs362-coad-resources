@@ -51,4 +51,10 @@ RSpec.describe ResourceCategory, type: :model do
 
     it { expect(res.to_s).to eq('Sheep') }
   end
+
+  describe '.unspecified' do
+    unspecified_res = ResourceCategory.unspecified
+
+    it { expect(unspecified_res.to_s).to eq('Unspecified') }
+  end
 end

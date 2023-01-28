@@ -16,6 +16,7 @@ class ResourceCategory < ApplicationRecord
 
     end
   end
+
   def self.unspecified
     ResourceCategory.find_or_create_by(name: 'Unspecified')
   end

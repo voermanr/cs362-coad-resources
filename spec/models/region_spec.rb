@@ -26,4 +26,10 @@ RSpec.describe Region, type: :model do
 
     it { expect(reg.to_s).to eq('The Twilight Zone') }
   end
+
+  describe 'unspecified testing' do
+    unspecified_region = Region.unspecified
+
+    it { expect(unspecified_region.to_s).to eq('Unspecified') }
+  end
 end

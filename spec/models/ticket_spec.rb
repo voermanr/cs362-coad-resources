@@ -19,4 +19,23 @@ RSpec.describe Ticket, type: :model do
     it { should belong_to(:organization).optional }
   end
 
+  describe '.open?' do
+    let(:tic) { build(:ticket, closed: true) }
+
+    it { expect(tic.open?).to be(false) }
+  end
+
+  describe '.captured?' do
+    let(:org) { build(:organization) }
+    let(:tic) { build(:ticket, organization: org) }
+
+    it { expect(tic.organization).to be_present }
+  end
+
+  describe '.to_s' do
+    let(:tic) { build(:ticket, id: 12_345) }
+
+    it { expect(tic.to_s).to eq('Ticket 12345') }
+  end
+
 end

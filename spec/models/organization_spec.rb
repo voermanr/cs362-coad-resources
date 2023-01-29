@@ -28,11 +28,19 @@ RSpec.describe Organization, type: :model do
   end
 
   # Validation Tests
-  
+
   describe 'validations' do
     it {should validate_presence_of(:email)}
     it {should validate_presence_of(:name)}
-    it {should validate_length_of(:email)}
+    it {should validate_presence_of(:phone)}
+    it {should validate_presence_of(:status)}
+    it {should validate_presence_of(:primary_name)}
+    it {should validate_presence_of(:secondary_name)}
+    it {should validate_presence_of(:secondary_phone)}
+
+    it {should allow_value("user@example.com").for(:email)}
+
+    it {should validate_uniqueness_of(:email).ignoring_case_sensitivity }
   end
 
 

@@ -12,6 +12,18 @@ RSpec.describe Ticket, type: :model do
     expect(ticket).to respond_to(:name, :phone, :region_id, :resource_category_id, :description)
   end
 
+  describe 'validations' do
+    it {should validate_presence_of(:name)}
+    it {should validate_presence_of(:phone)}
+    it {should validate_presence_of(:region_id)}
+    it {should validate_presence_of(:resource_category_id)}
+
+    it {should validate_length_of(:name).is_at_least(1)}
+    it {should validate_length_of(:name).is_at_most(255)}
+    it {should validate_length_of(:description).is_at_most(1020)}
+
+    #need to validate phone phony plausibility
+  end
 
   describe 'associations' do
     it { should belong_to(:region) }

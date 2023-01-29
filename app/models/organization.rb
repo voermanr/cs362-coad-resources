@@ -21,6 +21,12 @@ class Organization < ApplicationRecord
   validates_uniqueness_of :name, case_sensitive: false
   validates_length_of :description, maximum: 1020, on: :create
 
+
+  FactoryBot.define do
+    factory(:organization)
+  end
+
+
   def approve
     self.status = :approved
   end

@@ -11,6 +11,12 @@ class ResourceCategory < ApplicationRecord
   scope :active, -> () { where active: true }
   scope :inactive, -> () { where active: false }
 
+  FactoryBot.define do
+    factory :resource_category do
+
+    end
+  end
+
   def self.unspecified
     ResourceCategory.find_or_create_by(name: 'Unspecified')
   end

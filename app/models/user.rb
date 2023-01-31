@@ -18,14 +18,6 @@ class User < ApplicationRecord
   validates_presence_of :password, on: :create
   validates_length_of :password, minimum: 7, maximum: 255, on: :create
 
-
-  FactoryBot.define do
-    factory :user do
-      password { "password" }
-    end
-  end
-
-
   def set_default_role
     self.role ||= :organization
   end

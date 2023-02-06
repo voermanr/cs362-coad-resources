@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Ticket, type: :model do
 
-  let(:ticket) {Ticket.new}
+  let(:ticket) {create(:ticket)}
 
   it "responds to belongs_to attributes" do
     expect(ticket).to respond_to(:region, :resource_category, :organization)
@@ -22,7 +22,22 @@ RSpec.describe Ticket, type: :model do
     it {should validate_length_of(:name).is_at_most(255)}
     it {should validate_length_of(:description).is_at_most(1020)}
 
-    #need to validate phone phony plausibility
+    it {should allow_value("+1-555-555-1212").for(:phone)}
+    it {should_not allow_value("dfghjifuygh").for(:phone)}
+
+  end
+
+  describe 'scope' do
+    let(:openticket) {create(:ticket, name: 'Test Open', closed: false)}
+    let(:closedticket) {create(:ticket, name: 'Test Closed', closed: true )}
+    it "includes tickets with open/close flag" do
+      expect(Ticket.open).to include(openticket)
+    end
+    it 'wasdter' do
+      pp Ticket.closed
+      expect(Ticket.closed).to include(closedticket)
+    end
+
   end
 
   describe 'associations' do

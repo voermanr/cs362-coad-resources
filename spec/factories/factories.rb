@@ -2,10 +2,6 @@ gem 'faker'
 
 FactoryBot.define do
 
-  factory :user do
-    password { "password" }
-  end
-
   factory :resource_category do
     name {'test resource_category'}
     active {true}

@@ -28,16 +28,38 @@ RSpec.describe Ticket, type: :model do
   end
 
   describe 'scope' do
-    let(:openticket) {create(:ticket, name: 'Test Open', closed: false)}
-    let(:closedticket) {create(:ticket, name: 'Test Closed', closed: true )}
-    it "includes tickets with open/close flag" do
-      expect(Ticket.open).to include(openticket)
-    end
-    it 'wasdter' do
-      pp Ticket.closed
-      expect(Ticket.closed).to include(closedticket)
+    # let(:openticket) {create(:ticket, name: 'Test Open', closed: false)}
+    # let(:closedticket) {create(:ticket, name: 'Test Closed', closed: true )}
+    # let(:organizationticket) {create(:ticket, name: 'Test All_Organization', closed: false, organization_id: 1)}
+
+    setup do
+      rc = create(:resource_category, name: 'Test Resource Category')
+      r = create(:region, name: 'Test Region')
+      @open_ticket = create(:ticket, name: 'Test Open', resource_category: rc, region: r)
+      @closed_ticket = create(:ticket, name: 'Test Closed', resource_category: rc, region: r, closed: true)
+      # @open_organization_ticket = create(:ticket, name: 'Test All_Organization', closed: false, organization_id: 1)
+      # @closed_organization_ticket = create(:ticket, name: 'Test Closed_Organization', closed: true, organization_id: 2)
+
     end
 
+    it "includes tickets with open flag" do
+      expect(Ticket.open).to include(@open_ticket)
+    end
+    it "includes tickets with close flag" do
+      expect(Ticket.closed).to include(@closed_ticket)
+    end
+
+    # it "includes tickets where organization is not nothing" do
+    #   expect(Ticket.all_organization).to include(@open_organization_ticket)
+    # end
+
+    # it "includes ticket where organization id is specified" do
+    #   expect(Ticket.where(organization_id: 1)).to include(@open_organization_ticket)
+    # end
+
+    # it "discludes ticket where organization id is open" do
+    #   expect(Ticket.closed_organization).to include (@closed_organization_ticket)
+    # end
   end
 
   describe 'associations' do

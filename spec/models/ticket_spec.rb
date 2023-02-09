@@ -37,8 +37,8 @@ RSpec.describe Ticket, type: :model do
       r = create(:region, name: 'Test Region')
       @open_ticket = create(:ticket, name: 'Test Open', resource_category: rc, region: r)
       @closed_ticket = create(:ticket, name: 'Test Closed', resource_category: rc, region: r, closed: true)
-      # @open_organization_ticket = create(:ticket, name: 'Test All_Organization', closed: false, organization_id: 1)
-      # @closed_organization_ticket = create(:ticket, name: 'Test Closed_Organization', closed: true, organization_id: 2)
+      @open_organization_ticket = create(:ticket, name: 'Test All_Organization', resource_category: rc, region: r, closed: false, organization_id: 1)
+      @closed_organization_ticket = create(:ticket, name: 'Test Closed_Organization', resource_category: rc, region: r, closed: true, organization_id: 1)
 
     end
 
@@ -49,17 +49,19 @@ RSpec.describe Ticket, type: :model do
       expect(Ticket.closed).to include(@closed_ticket)
     end
 
-    # it "includes tickets where organization is not nothing" do
-    #   expect(Ticket.all_organization).to include(@open_organization_ticket)
-    # end
+    it "includes tickets where organization is not nothing" do
 
-    # it "includes ticket where organization id is specified" do
-    #   expect(Ticket.where(organization_id: 1)).to include(@open_organization_ticket)
-    # end
+      expect(Ticket.all_organization).to include(@open_organization_ticket)
+    end
 
-    # it "discludes ticket where organization id is open" do
-    #   expect(Ticket.closed_organization).to include (@closed_organization_ticket)
-    # end
+    it "includes ticket where organization id is specified" do
+      expect(Ticket.organization(1)).to include(@open_organization_ticket)
+    end
+
+    it "Does not include open tickets in organization array" do
+      expect(Ticket.closed_organization(1)).to include(@closed_organization_ticket)
+      expect(Ticket.closed_organization(1)).not_to include(@open_organization_ticket)
+    end
   end
 
   describe 'associations' do

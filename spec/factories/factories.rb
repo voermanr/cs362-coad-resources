@@ -1,5 +1,3 @@
-gem 'faker'
-
 FactoryBot.define do
 
   factory :resource_category do
@@ -10,7 +8,5 @@ FactoryBot.define do
   factory :region do
     name {"Fake Region"}
   end
-
-
 
 end

@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Region, type: :model do
   let(:region) { build(:region) }
-  let(:region_mt_hood) { build(:region, name: 'Mt. Hood') }
 
   it "responds to attribute name" do
     expect(region).to respond_to(:name)
@@ -10,10 +9,6 @@ RSpec.describe Region, type: :model do
 
   it "responds to has_many attribute tickets" do
     expect(region).to respond_to(:tickets)
-  end
-
-  it "has a string representation that is its name" do
-    result = region_mt_hood.to_s
   end
 
   describe 'validations' do

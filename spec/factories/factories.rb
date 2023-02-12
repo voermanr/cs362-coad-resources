@@ -5,8 +5,4 @@ FactoryBot.define do
     active {true}
   end
 
-  factory :region do
-    name {"Fake Region"}
-  end
-
 end

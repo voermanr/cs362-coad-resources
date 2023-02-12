@@ -45,23 +45,31 @@ RSpec.describe Ticket, type: :model do
     it "includes tickets with open flag" do
       expect(Ticket.open).to include(@open_ticket)
     end
+
     it "includes tickets with close flag" do
       expect(Ticket.closed).to include(@closed_ticket)
     end
 
     it "includes tickets where organization is not nothing" do
-
       expect(Ticket.all_organization).to include(@open_organization_ticket)
     end
 
     it "includes ticket where organization id is specified" do
       expect(Ticket.organization(1)).to include(@open_organization_ticket)
+      expect(Ticket.organization(1)).not_to include(@closed_organization_ticket)
     end
 
     it "Does not include open tickets in organization array" do
       expect(Ticket.closed_organization(1)).to include(@closed_organization_ticket)
       expect(Ticket.closed_organization(1)).not_to include(@open_organization_ticket)
     end
+
+    #TODO: Check tickets have valid region_id and resource_category_id
+
+    # it "Has tickets with a given valid region" do
+    #   expect(ticket.where(region_id: 1)).to include(@open_ticket)
+    # end
+
   end
 
   describe 'associations' do

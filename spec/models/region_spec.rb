@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Region, type: :model do
-  let(:region) {Region.new}
+  let(:region) { build(:region) }
 
   it "responds to attribute name" do
     expect(region).to respond_to(:name)
@@ -12,8 +12,7 @@ RSpec.describe Region, type: :model do
   end
 
   it "has a string representation that is its name" do
-    name = 'Mt. Hood'
-    region = Region.new(name: name)
+    let(:region) { build(:region, name: 'Mt. Hood') }
     result = region.to_s
   end
 

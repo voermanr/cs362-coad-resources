@@ -34,11 +34,12 @@ RSpec.describe Ticket, type: :model do
 
     setup do
       rc = create(:resource_category, name: 'Test Resource Category')
-      r = create(:region, name: 'Test Region')
-      @open_ticket = create(:ticket, name: 'Test Open', resource_category: rc, region: r)
-      @closed_ticket = create(:ticket, name: 'Test Closed', resource_category: rc, region: r, closed: true)
-      @open_organization_ticket = create(:ticket, name: 'Test All_Organization', resource_category: rc, region: r, closed: false, organization_id: 1)
-      @closed_organization_ticket = create(:ticket, name: 'Test Closed_Organization', resource_category: rc, region: r, closed: true, organization_id: 1)
+      @region = create(:region, name: 'Test Region')
+      @another_region = create(:region)
+      @open_ticket = create(:ticket, name: 'Test Open', resource_category: rc, region: @region)
+      @closed_ticket = create(:ticket, name: 'Test Closed', resource_category: rc, region: @region, closed: true)
+      @open_organization_ticket = create(:ticket, name: 'Test All_Organization', resource_category: rc, region: @region, closed: false, organization_id: 1)
+      @closed_organization_ticket = create(:ticket, name: 'Test Closed_Organization', resource_category: rc, region: @region, closed: true, organization_id: 1)
 
     end
 
@@ -66,9 +67,11 @@ RSpec.describe Ticket, type: :model do
 
     #TODO: Check tickets have valid region_id and resource_category_id
 
-    # it "Has tickets with a given valid region" do
-    #   expect(ticket.where(region_id: 1)).to include(@open_ticket)
-    # end
+    it "Has tickets with a given valid region" do
+      expect(Ticket.region(@region)).to include(@open_ticket, @closed_ticket, @open_organization_ticket, @closed_organization_ticket)
+    end
+
+    # @Cooper is this what we need to implement? you know more about the scope tests than I do.
 
   end
 

@@ -28,19 +28,18 @@ RSpec.describe Ticket, type: :model do
   end
 
   describe 'scope' do
-    # let(:openticket) {create(:ticket, name: 'Test Open', closed: false)}
-    # let(:closedticket) {create(:ticket, name: 'Test Closed', closed: true )}
-    # let(:organizationticket) {create(:ticket, name: 'Test All_Organization', closed: false, organization_id: 1)}
 
     setup do
       rc = create(:resource_category, name: 'Test Resource Category')
+      rc2 = create(:resource_category, name: 'Test Resource Category 8', id: 8)
       @region = create(:region, name: 'Test Region')
+      @region2 = create(:region, name: 'Test Region2', id: 8)
       @another_region = create(:region)
-      @open_ticket = create(:ticket, name: 'Test Open', resource_category: rc, region: @region)
-      @closed_ticket = create(:ticket, name: 'Test Closed', resource_category: rc, region: @region, closed: true)
-      @open_organization_ticket = create(:ticket, name: 'Test All_Organization', resource_category: rc, region: @region, closed: false, organization_id: 1)
-      @closed_organization_ticket = create(:ticket, name: 'Test Closed_Organization', resource_category: rc, region: @region, closed: true, organization_id: 1)
-
+      @open_ticket = create(:ticket, name: 'Test Open', resource_category: rc2, region: @region)
+      @closed_ticket = create(:ticket, name: 'Test Closed', resource_category: rc2, region: @region, closed: true)
+      @open_organization_ticket = create(:ticket, name: 'Test All_Organization', resource_category: rc, region: @region2, closed: false, organization_id: 1)
+      @closed_organization_ticket = create(:ticket, name: 'Test Closed_Organization', resource_category: rc, region: @region2, closed: true, organization_id: 1)
+      @FredJones = create(:ticket, name: 'Test Ope', region: @region2)
     end
 
     it "includes tickets with open flag" do
@@ -65,13 +64,15 @@ RSpec.describe Ticket, type: :model do
       expect(Ticket.closed_organization(1)).not_to include(@open_organization_ticket)
     end
 
-    #TODO: Check tickets have valid region_id and resource_category_id
-
     it "Has tickets with a given valid region" do
-      expect(Ticket.region(@region)).to include(@open_ticket, @closed_ticket, @open_organization_ticket, @closed_organization_ticket)
+      expect(Ticket.region(8)).to include(@open_organization_ticket, @closed_organization_ticket)
+      expect(Ticket.region(8)).not_to include(@open_ticket, @closed_ticket)
     end
 
-    # @Cooper is this what we need to implement? you know more about the scope tests than I do.
+    it "Has tickets with given resource_category" do
+      expect(Ticket.resource_category(8)).to include(@open_ticket, @closed_ticket)
+      expect(Ticket.resource_category(8)).not_to include(@open_organization_ticket, @closed_organization_ticket)
+    end
 
   end
 

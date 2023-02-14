@@ -39,10 +39,10 @@ RSpec.describe User, type: :model do
 
 
   describe "to_s method testing" do
-    let(:user) { build(:user, email: 'example@sixflags.com') }
+    let(:user) { build(:user) }
 
     it 'returns email' do
-      expect(user.to_s).to eq 'example@sixflags.com'
+      expect(user.to_s).to eq user.email
     end
   end
 end

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :user do
     email
-    encrypted_password { Faker::Internet.password(min_length: 7, max_length: 255) }
+    password { Faker::Internet.password(min_length: 7, max_length: 128) }
     before(:create, &:skip_confirmation!)
 
     trait :organization_approved do

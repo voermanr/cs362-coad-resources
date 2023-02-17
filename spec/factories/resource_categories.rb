@@ -3,5 +3,4 @@ FactoryBot.define do
     name
     active {true}
   end
-
 end

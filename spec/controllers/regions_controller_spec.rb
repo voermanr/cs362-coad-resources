@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe RegionsController, type: :controller do
-  message_dashboard_redirect = 'expects to get redirected to the dashboard'
-
   context 'as a signed_in user' do
     let(:a_signed_in_user) { create(:user) }
     before(:each) do

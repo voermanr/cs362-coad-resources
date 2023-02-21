@@ -6,4 +6,12 @@ FactoryBot.define do
   sequence :email do
     Faker::Internet.unique.email
   end
+
+  sequence :description do
+
+  end
+
+  #sequence :
+
+
 end

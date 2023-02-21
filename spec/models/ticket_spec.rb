@@ -39,7 +39,6 @@ RSpec.describe Ticket, type: :model do
       @closed_ticket = create(:ticket, name: 'Test Closed', resource_category: rc2, region: @region, closed: true)
       @open_organization_ticket = create(:ticket, name: 'Test All_Organization', resource_category: rc, region: @region2, closed: false, organization_id: 1)
       @closed_organization_ticket = create(:ticket, name: 'Test Closed_Organization', resource_category: rc, region: @region2, closed: true, organization_id: 1)
-      @FredJones = create(:ticket, name: 'Test Ope', region: @region2)
     end
 
     it "includes tickets with open flag" do

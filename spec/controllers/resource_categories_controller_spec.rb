@@ -100,6 +100,12 @@ RSpec.describe ResourceCategoriesController, type: :controller do
 
     describe 'POST #create' do
       it { expect(post(:create, params: { resource_category: attributes_for(:resource_category) })).to redirect_to resource_categories_path }
+
+      it 'a bad resource category' do
+        expect_any_instance_of(ResourceCategory).to receive(:save).and_return(false)
+        expect(post(:create, params: { resource_category: attributes_for(:resource_category)})).to be_successful
+      end
+
     end
 
     describe 'GET #edit' do
@@ -108,14 +114,29 @@ RSpec.describe ResourceCategoriesController, type: :controller do
 
     describe 'PUT #update' do
       it { expect(put(:update, params: { id: create(:resource_category), resource_category: attributes_for(:resource_category) })).to redirect_to resource_category_path }
+
+      it 'a bad resource category' do
+        expect_any_instance_of(ResourceCategory).to receive(:update).and_return(false)
+        expect(put(:update, params: { id: create(:resource_category), resource_category: attributes_for(:resource_category)})).to be_successful
+      end
     end
 
     describe 'PATCH #activate' do
       it { expect(patch(:activate, params: { id: create(:resource_category) })).to redirect_to resource_category_path }
+
+      it 'a bad resource category' do
+        expect_any_instance_of(ResourceCategory).to receive(:activate).and_return(false)
+        expect(patch(:activate, params: { id: create(:resource_category), resource_category: attributes_for(:resource_category)})).to redirect_to(resource_category_path)
+      end
     end
 
     describe 'PATCH #deactivate' do
       it { expect(patch(:deactivate, params: { id: create(:resource_category) })).to redirect_to resource_category_path }
+
+      it 'a bad resource category' do
+        expect_any_instance_of(ResourceCategory).to receive(:deactivate).and_return(false)
+        expect(patch(:deactivate, params: { id: create(:resource_category), resource_category: attributes_for(:resource_category)})).to redirect_to(resource_category_path)
+      end
     end
 
     describe 'DELETE #destroy' do

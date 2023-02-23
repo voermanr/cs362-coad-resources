@@ -2,7 +2,7 @@ FactoryBot.define do
   factory(:organization) do
     name { Faker::TvShows::TwinPeaks.name}
     phone { Faker::PhoneNumber.cell_phone_with_country_code }
-    email { Faker::Internet.email }
+    email { }
     description { Faker::Lorem.words number: 4 }
     rejection_reason { Faker::Lorem.word }
     created_at { Faker::Date }

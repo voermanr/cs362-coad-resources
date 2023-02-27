@@ -22,6 +22,12 @@ RSpec.describe RegionsController, type: :controller do
 
     describe 'POST #create' do
       it { expect(post(:create)).to redirect_to dashboard_path }
+
+      it 'a bad region' do
+        expect_any_instance_of(Region).to receive(:save).and_return(false)
+        expect(post(:create, params: { id: attributes_for(:region)})).to be_successful
+      end
+
     end
 
     describe 'GET #edit' do

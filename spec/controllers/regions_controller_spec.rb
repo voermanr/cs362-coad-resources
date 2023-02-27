@@ -23,10 +23,7 @@ RSpec.describe RegionsController, type: :controller do
     describe 'POST #create' do
       it { expect(post(:create)).to redirect_to dashboard_path }
 
-      # it 'a bad region' do
-      #   expect_any_instance_of(Region).to receive(:save).and_return(false)
-      #   expect(post(:create, params: { id: attributes_for(:region)})).to be_successful
-      # end
+
 
     end
 
@@ -95,6 +92,12 @@ RSpec.describe RegionsController, type: :controller do
 
     describe 'POST #create' do
       it { expect(post(:create, params: { region: attributes_for(:region) })).to redirect_to regions_path }
+
+      it 'a bad region' do
+        expect_any_instance_of(Region).to receive(:save).and_return(false)
+        expect(post(:create, params: { region: attributes_for(:region)})).to be_successful
+      end
+
     end
 
     describe 'GET #edit' do
@@ -103,6 +106,11 @@ RSpec.describe RegionsController, type: :controller do
 
     describe 'PUT #update' do
       it { expect(put(:update, params: { id: create(:region), region: attributes_for(:region) })).to redirect_to region_path }
+
+      it 'a bad region' do
+        expect_any_instance_of(Region).to receive(:update).and_return(false)
+        expect(put(:update, params: { id: create(:region), region: attributes_for(:region)})).to be_successful
+      end
     end
 
     describe 'DELETE #destroy' do

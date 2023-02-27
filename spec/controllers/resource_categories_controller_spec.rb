@@ -119,6 +119,7 @@ RSpec.describe ResourceCategoriesController, type: :controller do
         expect_any_instance_of(ResourceCategory).to receive(:update).and_return(false)
         expect(put(:update, params: { id: create(:resource_category), resource_category: attributes_for(:resource_category)})).to be_successful
       end
+
     end
 
     describe 'PATCH #activate' do

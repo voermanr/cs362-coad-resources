@@ -115,10 +115,10 @@ RSpec.describe ResourceCategoriesController, type: :controller do
     describe 'PUT #update' do
       it { expect(put(:update, params: { id: create(:resource_category), resource_category: attributes_for(:resource_category) })).to redirect_to resource_category_path }
 
-      # it 'a bad resource category' do
-      #   expect_any_instance_of(ResourceCategory).to receive(:update).and_return(false)
-      #   expect(put(:update, params: { id: create(:resource_category), resource_category: attributes_for(:resource_category)})).to be_successful
-      # end
+      it 'a bad resource category' do
+        expect_any_instance_of(ResourceCategory).to receive(:update).and_return(false)
+        expect(put(:update, params: { id: create(:resource_category), resource_category: attributes_for(:resource_category)})).to be_successful
+      end
     end
 
     describe 'PATCH #activate' do

@@ -15,10 +15,10 @@ RSpec.describe TicketsController, type: :controller do
         describe 'POST #create' do
             it { expect(post(:create, params: { ticket: attributes_for(:ticket) })).to redirect_to ticket_submitted_path }
 
-            # it 'a bad ticket' do
-            #     expect_any_instance_of(Ticket).to receive(:save).and_return(false)
-            #     expect(post(:create, params: { Ticket: attributes_for(:Ticket)})).to be_successful
-            # end
+            it 'a bad ticket' do
+                expect_any_instance_of(Ticket).to receive(:save).and_return(false)
+                expect(post(:create, params: { id: attributes_for(:Ticket)})).to be_successful
+            end
         end
 
         describe 'GET #show' do

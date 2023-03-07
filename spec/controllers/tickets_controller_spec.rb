@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe TicketsController, type: :controller do
     
+    
     context 'as a non admin but signed in user:' do 
         let(:a_signed_in_user) { create(:user) }
         before(:each) do

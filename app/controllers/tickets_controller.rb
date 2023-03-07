@@ -33,7 +33,6 @@ class TicketsController < ApplicationController
     if TicketService.capture_ticket(params[:id], current_user) == :ok
       redirect_to dashboard_path << '#tickets:open'
     else
-      puts('AAA')
       render :show
     end
   end

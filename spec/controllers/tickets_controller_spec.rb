@@ -94,13 +94,6 @@ RSpec.describe TicketsController, type: :controller do
 
         describe 'POST #capture' do
             it { expect(post(:capture, params: { id: ticket.id })).to redirect_to dashboard_path << '#tickets:open' }
-
-
-            # it 'a bad ticket' do
-            #     ticket.organization_id = 999
-            #     expect(post(:capture, params: { id: ticket.id})).to be_successful
-
-            # end
         end
 
         describe 'POST #release' do

@@ -17,7 +17,7 @@ RSpec.describe TicketsController, type: :controller do
 
             it 'a bad ticket' do
                 expect_any_instance_of(Ticket).to receive(:save).and_return(false)
-                expect(post(:create, params: { id: attributes_for(:Ticket)})).to be_successful
+                expect(post(:create, params: { ticket: attributes_for(:ticket)})).to be_successful
             end
         end
 
@@ -94,6 +94,13 @@ RSpec.describe TicketsController, type: :controller do
 
         describe 'POST #capture' do
             it { expect(post(:capture, params: { id: ticket.id })).to redirect_to dashboard_path << '#tickets:open' }
+
+
+            it 'a bad ticket' do
+                ticket.organization_id = 999
+                expect(post(:capture, params: { id: ticket.id})).to be_successful
+
+            end
         end
 
         describe 'POST #release' do
@@ -120,7 +127,7 @@ RSpec.describe TicketsController, type: :controller do
             it {expect(current_user.admin?).to be_truthy }
         end
 
-        describe 'GET #show' do 
+        describe 'GET #show' do
             it { expect(get(:show, params: { id: ticket.id })).to be_successful }
         end
 
@@ -144,7 +151,7 @@ RSpec.describe TicketsController, type: :controller do
             it { expect(post(:create, params: { ticket: attributes_for(:ticket) })).to redirect_to ticket_submitted_path }
         end
 
-        describe 'GET #show' do 
+        describe 'GET #show' do
             it { expect(get(:show)).to not_be_successful }
         end
 

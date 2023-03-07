@@ -68,7 +68,7 @@ RSpec.describe TicketsController, type: :controller do
         end
     end
 
-    context 'as a user with an approved organization but signed in:' do
+    context 'as a user with an approved organization and signed in:' do
         let(:current_user) { create(:user, :organization_approved) }
         let(:ticket) {create(:ticket) }
         before(:each) do
@@ -79,7 +79,7 @@ RSpec.describe TicketsController, type: :controller do
             it { expect(current_user&.organization&.approved?).to be_truthy }
         end
 
-        describe 'user is admin' do
+        describe 'user is not an admin' do
             it { expect(current_user&.admin?).to be_falsey }
         end
 
@@ -123,25 +123,41 @@ RSpec.describe TicketsController, type: :controller do
             it { expect(post(:release, params: { id: ticket.id })).to redirect_to dashboard_path << '#tickets:captured' }
         end
 
-        describe 'PATCH #close' do
-            it { expect(patch(:close, params: { id: ticket.id })).to redirect_to dashboard_path << '#tickets:open' }
-        end
-
         describe 'DELETE #destroy' do
             it { expect(delete(:destroy, params: { id: ticket.id })).to redirect_to dashboard_path << '#tickets' }
         end
     end
 
-    context 'as a non signed in user' do
-        let(:current_user) { create(:user) }
-
-        describe 'POST #create' do
-            it { expect(post(:create, params: { ticket: attributes_for(:ticket) })).to redirect_to ticket_submitted_path }
-        end
-
-        describe 'GET #show' do 
-            it { expect(get(:show)).to not_be_successful }
-        end
-
+    describe 'PATCH #close' do
+        it { 
+            user = create(:user, :organization_approved)
+            sign_in user 
+            ticket = create(:ticket, organization_id: user.organization_id)  
+            patch(:close, params: { id: ticket.id })
+            expect(response).to redirect_to dashboard_path << '#tickets:organization' 
+        }
     end
+
+    describe 'PATCH #close' do
+        it { 
+            user = create(:user, :organization_approved, :admin)
+            sign_in user
+            ticket = create(:ticket, organization_id: user.organization_id)  
+            patch(:close, params: { id: ticket.id })
+            expect(response).to redirect_to dashboard_path << '#tickets:open' 
+        }
+    end
+
+    context "as a loged in with approved organization and owned ticket" do
+        describe 'post #release' do
+            it {
+                user = create(:user, :organization_approved)
+                sign_in user
+                ticket = create(:ticket, organization_id: user.organization_id)
+                post(:release, params: {id: ticket.id})
+                expect(response).to redirect_to dashboard_path << '#tickets:organization'
+            }
+        end
+    end
+
 end

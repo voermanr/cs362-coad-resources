@@ -175,4 +175,14 @@ RSpec.describe TicketsController, type: :controller do
         end
     end
 
+    describe 'post #capture' do
+        it {
+            user = create(:user, :organization_approved)
+            sign_in user
+            ticket = create(:ticket, organization_id: 56566)
+            post(:capture, params: {id: ticket.id})
+            expect(response).to be_successful
+        }
+    end
+    
 end

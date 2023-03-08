@@ -53,4 +53,14 @@ RSpec.describe OrganizationsController, type: :controller do
     #   it { expect(delete(:destroy, params: { id: attributes_for(:organization) })).to be_successful }
     # end
   end
+
+  context 'as a logged out user' do
+    let(:user) { create(:user) }
+
+    it 'redirects to the sign in page' do
+      post :create, params: { organization: attributes_for(:organization) }
+
+      expect(response).to redirect_to(new_user_session_path)
+    end
+  end
 end

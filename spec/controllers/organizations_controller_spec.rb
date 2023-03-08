@@ -26,6 +26,8 @@ RSpec.describe OrganizationsController, type: :controller do
     end
 
     it 'POST #create' do
+      # @Cooper here is how you bypass the email problem. You may want to add an email to the user factory,
+      # or just make a user with an email.
       allow_any_instance_of(UserMailer).to receive(:new_organization_application).and_return(true)
 
       post :create, params: { organization: attributes_for(:organization) }

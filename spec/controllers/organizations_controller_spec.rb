@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe OrganizationsController, type: :controller do
   context 'as a signed in user' do
     let(:a_signed_in_user) { create(:user) }
+    let(:organization) { create(:organization) }
     before(:each) { sign_in(a_signed_in_user) }
 
     describe 'POST #approve' do
@@ -22,8 +25,11 @@ RSpec.describe OrganizationsController, type: :controller do
       it { expect(get(:index)).to be_successful }
     end
 
-    describe 'POST #create' do
-      it { expect(post(:create, params: { organization: attributes_for(:organization) })).to be_successful }
+    it 'POST #create' do
+      allow_any_instance_of(UserMailer).to receive(:new_organization_application).and_return(true)
+
+      post :create, params: { organization: attributes_for(:organization) }
+      expect(response).to redirect_to(organization_application_submitted_path)
     end
 
     describe 'GET #new' do

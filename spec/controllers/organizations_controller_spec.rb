@@ -16,10 +16,10 @@ RSpec.describe OrganizationsController, type: :controller do
       it { expect(post(:reject, params: { id: attributes_for(:organization) })).to redirect_to dashboard_path }
     end
 
-    describe 'GET #resources' do
-      # TODO: find out what the heck #resources is
-      # it { expect(get(:resources, params: { id: attributes_for(:organization) })).to redirect_to dashboard_path }
-    end
+    # TODO: find out what the heck #resources is
+    # describe 'GET #resources' do
+    #   it { expect(get(:resources, params: { id: attributes_for(:organization) })).to redirect_to dashboard_path }
+    # end
 
     describe 'GET #index' do
       it { expect(get(:index)).to be_successful }
@@ -48,9 +48,9 @@ RSpec.describe OrganizationsController, type: :controller do
       it { expect(put(:update, params: { id: attributes_for(:organization) })).to redirect_to dashboard_path }
     end
 
-    describe 'DELETE #destroy' do
-      # TODO: Where is my destroy tonight? I hope he is a gentleman
-      # it { expect(delete(:destroy, params: { id: attributes_for(:organization) })).to be_successful }
-    end
+    # TODO: Where is my destroy tonight? I hope he is a gentleman
+    # describe 'DELETE #destroy' do
+    #   it { expect(delete(:destroy, params: { id: attributes_for(:organization) })).to be_successful }
+    # end
   end
 end

@@ -2,19 +2,23 @@ require 'rails_helper'
 
 RSpec.describe TicketsController, type: :controller do
     
-    
     context 'as a non admin but signed in user:' do 
         let(:a_signed_in_user) { create(:user) }
         before(:each) do
             sign_in(a_signed_in_user)
         end
-    
+
         describe 'GET #new' do
             it { expect(get(:new)).to be_successful}
         end
 
         describe 'POST #create' do
             it { expect(post(:create, params: { ticket: attributes_for(:ticket) })).to redirect_to ticket_submitted_path }
+
+            it 'a bad ticket' do
+                expect_any_instance_of(Ticket).to receive(:save).and_return(false)
+                expect(post(:create, params: { ticket: attributes_for(:ticket)})).to be_successful
+            end
         end
 
         describe 'GET #show' do
@@ -26,11 +30,11 @@ RSpec.describe TicketsController, type: :controller do
         end
 
         describe 'POST #release' do
-            it { expect(post(:release, params: { id: attributes_for(:ticket) })).to redirect_to dashboard_path }        
+            it { expect(post(:release, params: { id: attributes_for(:ticket) })).to redirect_to dashboard_path }
         end
 
         describe 'PATCH #close' do
-            it { expect(patch(:release, params: { id: attributes_for(:ticket) })).to redirect_to dashboard_path }        
+            it { expect(patch(:release, params: { id: attributes_for(:ticket) })).to redirect_to dashboard_path }
         end
 
         describe 'DELETE #destroy' do
@@ -57,11 +61,11 @@ RSpec.describe TicketsController, type: :controller do
         end
 
         describe 'POST #release' do
-            it { expect(post(:release, params: { id: attributes_for(:ticket) })).to redirect_to dashboard_path }        
+            it { expect(post(:release, params: { id: attributes_for(:ticket) })).to redirect_to dashboard_path }
         end
 
         describe 'PATCH #close' do
-            it { expect(patch(:close, params: { id: attributes_for(:ticket) })).to redirect_to dashboard_path }        
+            it { expect(patch(:close, params: { id: attributes_for(:ticket) })).to redirect_to dashboard_path }
         end
 
         describe 'DELETE #destroy' do
@@ -84,7 +88,7 @@ RSpec.describe TicketsController, type: :controller do
             it { expect(current_user&.admin?).to be_falsey }
         end
 
-        describe 'GET #show' do 
+        describe 'GET #show' do
             it { expect(get(:show, params: { id: ticket.id })).to be_successful }
         end
 
@@ -116,7 +120,7 @@ RSpec.describe TicketsController, type: :controller do
             it {expect(current_user.admin?).to be_truthy }
         end
 
-        describe 'GET #show' do 
+        describe 'GET #show' do
             it { expect(get(:show, params: { id: ticket.id })).to be_successful }
         end
 
@@ -130,22 +134,22 @@ RSpec.describe TicketsController, type: :controller do
     end
 
     describe 'PATCH #close' do
-        it { 
+        it {
             user = create(:user, :organization_approved)
-            sign_in user 
-            ticket = create(:ticket, organization_id: user.organization_id)  
+            sign_in user
+            ticket = create(:ticket, organization_id: user.organization_id)
             patch(:close, params: { id: ticket.id })
-            expect(response).to redirect_to dashboard_path << '#tickets:organization' 
+            expect(response).to redirect_to dashboard_path << '#tickets:organization'
         }
     end
 
     describe 'PATCH #close' do
-        it { 
+        it {
             user = create(:user, :organization_approved, :admin)
             sign_in user
-            ticket = create(:ticket, organization_id: user.organization_id)  
+            ticket = create(:ticket, organization_id: user.organization_id)
             patch(:close, params: { id: ticket.id })
-            expect(response).to redirect_to dashboard_path << '#tickets:open' 
+            expect(response).to redirect_to dashboard_path << '#tickets:open'
         }
     end
 
@@ -157,6 +161,16 @@ RSpec.describe TicketsController, type: :controller do
                 ticket = create(:ticket, organization_id: user.organization_id)
                 post(:release, params: {id: ticket.id})
                 expect(response).to redirect_to dashboard_path << '#tickets:organization'
+            }
+        end
+
+        describe 'post #capture' do
+            it {
+                user = create(:user, :organization_approved)
+                sign_in user
+                ticket = create(:ticket, organization_id: user.organization_id)
+                post(:capture, params: {id: ticket.id})
+                expect(response).to be_successful
             }
         end
     end

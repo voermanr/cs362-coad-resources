@@ -25,13 +25,20 @@ RSpec.describe OrganizationsController, type: :controller do
       it { expect(get(:index)).to be_successful }
     end
 
-    it 'POST #create' do
-      # @Cooper here is how you bypass the email problem. You may want to add an email to the user factory,
-      # or just make a user with an email.
-      allow_any_instance_of(UserMailer).to receive(:new_organization_application).and_return(true)
+    describe 'POST #create' do
+      it do
+        # @Cooper here is how you bypass the email problem. You may want to add an email to the user factory,
+        # or just make a user with an email.
+        allow_any_instance_of(UserMailer).to receive(:new_organization_application).and_return(true)
 
-      post :create, params: { organization: attributes_for(:organization) }
-      expect(response).to redirect_to(organization_application_submitted_path)
+        post :create, params: { organization: attributes_for(:organization) }
+        expect(response).to redirect_to(organization_application_submitted_path)
+      end
+
+      it 'does not succeed' do
+        allow_any_instance_of(Organization).to receive(:save).and_return(false)
+        expect(post(:create, params: { organization: attributes_for(:organization) })).to be_successful
+      end
     end
 
     describe 'GET #new' do

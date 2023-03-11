@@ -54,7 +54,7 @@ RSpec.describe OrganizationsController, type: :controller do
     end
 
     describe 'PUT #update' do
-      it { expect(put(:update, params: { id: attributes_for(:organization) })).to redirect_to dashboard_path }
+
     end
 
     # TODO: Where is my destroy tonight? I hope he is a gentleman

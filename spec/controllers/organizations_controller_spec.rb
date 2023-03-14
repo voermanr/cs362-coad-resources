@@ -8,10 +8,6 @@ RSpec.describe OrganizationsController, type: :controller do
     let(:an_admin) { create(:user, :admin) }
     before(:each) { sign_in an_admin }
 
-    it 'PUT #update' do
-      expect(put(:approve, params: { id: organization.id })).to redirect_to organizations_path
-    end
-
     it 'PUT #approve' do
       allow_any_instance_of(Organization).to receive(:save).and_return(false)
 
@@ -86,12 +82,23 @@ RSpec.describe OrganizationsController, type: :controller do
     end
 
     describe 'PUT #update' do
-      it do
-        allow_any_instance_of(Organization).to receive(:update).and_return(true)
-        put(:update, params: { id: organization.id })
-        expect(response).to redirect_to dashboard_path
+      let(:valid_params) { { name: 'some dumb name' } }
+      let(:an_approved_organization_user) { create(:user) }
+      let(:approved_organization) { create(:organization, :approved, users: [an_approved_organization_user]) }
+
+      before { sign_in an_approved_organization_user }
+
+      it 'succeeds' do
+        put :update, params: { id: approved_organization.id, organization: valid_params }
+        expect(response).to redirect_to organization_path(id: approved_organization.id)
+        expect(approved_organization.reload.name).to eq('some dumb name')
       end
 
+      it 'fails' do
+        allow_any_instance_of(Organization).to receive(:update).and_return(false)
+        put :update, params: { id: approved_organization.id, organization: valid_params }
+        expect(response).to be_successful
+      end
     end
 
     # TODO: Where is my destroy tonight? I hope he is a gentleman

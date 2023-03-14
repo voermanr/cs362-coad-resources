@@ -8,22 +8,30 @@ RSpec.describe OrganizationsController, type: :controller do
     let(:an_admin) { create(:user, :admin) }
     before(:each) { sign_in an_admin }
 
-    it 'PUT #approve' do
-      allow_any_instance_of(Organization).to receive(:save).and_return(false)
+    describe 'PUT #approve' do
+      it do
+        expect(put(:approve, params: { id: organization.id })).to redirect_to organizations_path
+      end
 
-      #TODO: I think this is broken. something about view render.
-      # expect(put(:approve, params: { id: organization.id })).to redirect_to organizations_path
-    end
+      it 'fails' do
+        allow_any_instance_of(Organization).to receive(:save).and_return(false)
 
-    it 'PUT #reject' do
-      expect(put(:reject, params: { id: organization.id, organization: { rejection_reason: 'too stinky' } })).to redirect_to organizations_path
+        # TODO: @Beej I think this is broken. something about view render.
+        expect(put(:approve, params: { id: organization.id })).to redirect_to organization_path(id: organization.id)
+      end
     end
 
     describe 'PUT #reject' do
+
+      it do
+        put(:reject, params: { id: organization.id, organization: { rejection_reason: 'too stinky' } })
+        expect(response).to redirect_to organizations_path
+      end
       it 'can fail to save' do
         allow_any_instance_of(Organization).to receive(:save).and_return(false)
-        #TODO: some sort of render failure.
-        # expect(put(:reject, params: { id: organization.id, organization: { rejection_reason: 'not stinky enough' } })).to redirect_to organization_path(organization.id)
+        # TODO: @Beej some sort of render failure.
+        put(:reject, params: { id: organization.id, organization: { rejection_reason: 'not stinky enough' } })
+        expect(response).to redirect_to organization_path(organization.id)
       end
     end
   end
@@ -34,10 +42,7 @@ RSpec.describe OrganizationsController, type: :controller do
     before(:each) { sign_in(a_signed_in_user) }
 
     describe 'POST #approve' do
-      it do
-        post(:update, params: { id: organization.id, organization: { name: 'New Name' } })
-        expect(response).to redirect_to dashboard_path
-      end
+      it { expect(post(:approve, params: { id: attributes_for(:organization) })).to redirect_to dashboard_path }
     end
 
     describe 'POST #reject' do
